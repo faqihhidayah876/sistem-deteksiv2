@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MangoDoctor AI - Deteksi Penyakit Daun Mangga</title>
-    <meta name="description" content="Sistem deteksi dini penyakit daun mangga berbasis AI dan Web.">
+    <title>PatatDoctor AI - Deteksi Penyakit Daun Patat</title>
+    <meta name="description" content="Sistem deteksi dini penyakit daun patat berbasis AI dan Web.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -17,13 +17,11 @@
     <style>
         body { font-family: 'Poppins', sans-serif; }
         
-        /* Custom Gradients - Nuansa Hijau Pastel Segar */
         .bg-gradient-pastel {
             background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
             background-attachment: fixed;
         }
         
-        /* Glassmorphism Card */
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
@@ -31,7 +29,7 @@
             border: 1px solid rgba(255, 255, 255, 0.6);
         }
 
-        /* Animasi Garis Scanner */
+        /* Animasi Scanner */
         @keyframes scan {
             0% { top: 0%; opacity: 0; }
             10% { opacity: 1; }
@@ -42,29 +40,17 @@
             position: absolute;
             width: 100%;
             height: 3px;
-            background: #10b981; /* Emerald 500 */
+            background: #10b981;
             box-shadow: 0 0 15px #10b981, 0 0 5px #fff;
             animation: scan 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             z-index: 10;
         }
 
-        /* Hide Scrollbar tapi tetap bisa scroll */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Efek Hover Halus */
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        }
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
 <body class="bg-gradient-pastel min-h-screen text-gray-700 selection:bg-emerald-200 selection:text-emerald-900">
@@ -75,7 +61,7 @@
                 <i class="fa-solid fa-leaf text-xl"></i>
             </div>
             <div>
-                <span class="text-xl font-bold text-emerald-900 tracking-tight block leading-none">Mango<span class="text-emerald-600">Doctor</span></span>
+                <span class="text-xl font-bold text-emerald-900 tracking-tight block leading-none">Patat<span class="text-emerald-600">Doctor</span></span>
                 <span class="text-[0.65rem] text-emerald-600 font-medium tracking-widest uppercase">AI Plant Diagnosis</span>
             </div>
         </div>
@@ -84,7 +70,7 @@
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            System Online v1.0
+            System Online v1.1
         </div>
     </nav>
 
@@ -96,11 +82,11 @@
                     👋 Halo, Mahasiswa SI!
                 </div>
                 <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight">
-                    Jaga Kualitas <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Mangga Anda</span>
+                    Cek Kesehatan <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Daun Patat</span>
                 </h1>
                 <p class="text-gray-600 text-sm md:text-base leading-relaxed opacity-90">
-                    Sistem pakar berbasis Artificial Intelligence untuk mendeteksi penyakit pada daun mangga secara real-time. Cukup upload foto atau gunakan kamera.
+                    Sistem pakar berbasis AI untuk mendeteksi penyakit pada tanaman patat. Upload foto atau scan langsung.
                 </p>
             </div>
 
@@ -139,13 +125,12 @@
                     
                     <div id="section-upload" class="w-full max-w-md transition-all duration-500">
                         <label for="imageUpload" class="group flex flex-col items-center justify-center w-full h-80 border-2 border-emerald-300/50 border-dashed rounded-3xl cursor-pointer bg-emerald-50/30 hover:bg-emerald-50 hover:border-emerald-400 transition-all duration-300 relative overflow-hidden">
-                            <div class="absolute inset-0 bg-emerald-100/0 group-hover:bg-emerald-100/10 transition-colors duration-300"></div>
                             <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center p-6 z-10">
                                 <div class="bg-white p-5 rounded-full shadow-lg shadow-emerald-100 mb-5 group-hover:scale-110 transition-transform duration-300 ring-4 ring-emerald-50">
                                     <i class="fa-solid fa-image text-4xl text-emerald-500"></i>
                                 </div>
                                 <p class="mb-2 text-lg font-bold text-gray-700">Pilih Gambar Daun</p>
-                                <p class="text-xs text-gray-400">Support: JPG, PNG, JPEG</p>
+                                <p class="text-xs text-gray-400">Support: JPG, PNG</p>
                             </div>
                             <input id="imageUpload" type="file" class="hidden" accept="image/*" onchange="previewImage(event)" />
                         </label>
@@ -153,16 +138,11 @@
 
                     <div id="section-camera" class="w-full max-w-md hidden flex-col items-center transition-all duration-500">
                         <div class="relative w-full h-80 bg-gray-900 rounded-3xl overflow-hidden shadow-inner ring-4 ring-white border border-gray-200">
-                            <video id="webcam" autoplay playsinline class="absolute inset-0 w-full h-full object-cover transform scale-x-[-1] opacity-0 transition-opacity duration-500"></video>
+                            <video id="webcam" autoplay playsinline class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"></video>
                             
                             <div id="scan-overlay" class="absolute inset-0 hidden pointer-events-none">
                                 <div class="scan-line"></div>
                                 <div class="absolute inset-0 border-[3px] border-emerald-500/30 rounded-3xl m-3"></div>
-                                <div class="absolute top-4 left-4 w-8 h-8 border-t-4 border-l-4 border-emerald-400 rounded-tl-lg"></div>
-                                <div class="absolute top-4 right-4 w-8 h-8 border-t-4 border-r-4 border-emerald-400 rounded-tr-lg"></div>
-                                <div class="absolute bottom-4 left-4 w-8 h-8 border-b-4 border-l-4 border-emerald-400 rounded-bl-lg"></div>
-                                <div class="absolute bottom-4 right-4 w-8 h-8 border-b-4 border-r-4 border-emerald-400 rounded-br-lg"></div>
-                                
                                 <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-black/50 px-3 py-1 rounded-full text-white/90 text-[10px] tracking-widest font-mono backdrop-blur-sm">
                                     AI SCANNING...
                                 </div>
@@ -195,7 +175,6 @@
                             </div>
                         </div>
                         <h4 class="text-xl font-bold text-emerald-800">Menganalisa...</h4>
-                        <p class="text-sm text-gray-500 mt-1">AI sedang memeriksa kondisi daun</p>
                     </div>
 
                     <div id="result-overlay" class="absolute inset-0 z-50 bg-white z-20 hidden flex flex-col animate__animated animate__fadeInUp rounded-3xl overflow-hidden">
@@ -213,9 +192,6 @@
                                 <div class="w-full md:w-5/12">
                                     <div class="relative rounded-2xl overflow-hidden shadow-lg aspect-square border-2 border-white ring-2 ring-gray-100">
                                         <img id="result-image" src="#" class="w-full h-full object-cover">
-                                        <div class="absolute bottom-2 right-2 bg-black/60 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm">
-                                            Source: User Input
-                                        </div>
                                     </div>
                                 </div>
 
@@ -262,7 +238,7 @@
             </div>
             
             <div class="text-center mt-8 text-xs text-emerald-800/40 font-medium">
-                <p>&copy; 2026 MangoDoctor Project. Built with TensorFlow.js & Love.</p>
+                <p>&copy; 2026 PatatDoctor Project. Built with TensorFlow.js</p>
             </div>
         </div>
     </main>
@@ -274,39 +250,39 @@
     
     <script>
         // ============================================
-        // 1. KONFIGURASI MODEL (GANTI LINK INI!!!)
+        // CONFIG - GANTI LINK INI SETELAH NAMBAH CLASS BARU
         // ============================================
         const URL_MODEL = "https://teachablemachine.withgoogle.com/models/SyPfyrCXm/"; 
         // ============================================
 
         let model, maxPredictions, webcamStream;
         
-        // Database Solusi Sederhana
+        // Database Solusi - SUDAH UPDATE UNTUK DAUN PATAT
         const solutions = {
-            "sehat": "Kondisi daun sangat baik! Tanaman mangga Anda sehat. Lanjutkan penyiraman rutin, jaga kelembapan tanah, dan berikan pupuk organik secara berkala untuk mempertahankan kualitas buah.",
-            "sakit": "Terdeteksi indikasi penyakit (Hama/Jamur). Segera isolasi tanaman ini dari yang lain. Pangkas daun yang terinfeksi, lalu semprotkan fungisida atau pestisida nabati (campuran bawang putih & air) secukupnya.",
-            "default": "AI tidak yakin. Pastikan pencahayaan cukup dan foto fokus pada daun. Coba ambil gambar lagi dengan sudut yang berbeda."
+            "sehat": "Daun Patat tampak sehat dan hijau segar. Ini menandakan nutrisi tanah cukup. Pertahankan kondisi ini dengan penyiraman rutin dan hindari paparan matahari ekstrem langsung.",
+            "sakit": "Terdeteksi kelainan pada daun Patat (bintik/kuning). Ini bisa karena jamur atau kekurangan air. Segera pangkas daun yang rusak agar tidak menular ke bagian lain.",
+            
+            // Logic untuk class ke-3 (Lainnya/Background)
+            "lainnya": "Tidak ada daun patat yang terdeteksi secara jelas. Mohon arahkan kamera lebih dekat ke daun, atau pastikan pencahayaan cukup.",
+            "background": "Tidak ada daun patat yang terdeteksi. Silakan coba lagi.",
+            
+            "default": "AI ragu-ragu. Pastikan foto fokus dan pencahayaan baik."
         };
 
-        // --- Inisialisasi Aplikasi ---
         async function init() {
-            renderHistory(); // Load history dari LocalStorage
+            renderHistory();
             try {
                 const modelURL = URL_MODEL + "model.json";
                 const metadataURL = URL_MODEL + "metadata.json";
-                
-                // Load Model Teachable Machine
                 model = await tmImage.load(modelURL, metadataURL);
                 maxPredictions = model.getTotalClasses();
-                console.log("✅ Model AI Berhasil Dimuat");
-                
+                console.log("✅ Model AI Siap");
             } catch (e) {
-                console.error("Gagal Load Model:", e);
-                alert("Gagal memuat Model AI. \n\nPastikan Link URL Model di kodingan sudah benar dan Laptop terkoneksi internet.");
+                console.error(e);
+                alert("Gagal load Model. Pastikan link benar!");
             }
         }
 
-        // --- Logika Ganti Tab (Upload vs Kamera) ---
         function switchMode(mode) {
             const tabUpload = document.getElementById('tab-upload');
             const tabCamera = document.getElementById('tab-camera');
@@ -314,13 +290,11 @@
             const secCamera = document.getElementById('section-camera');
 
             if (mode === 'upload') {
-                // UI Styles
                 setActiveTab(tabUpload, tabCamera);
                 secUpload.classList.remove('hidden');
                 secCamera.classList.add('hidden');
-                stopCamera(); // Matikan kamera jika pindah tab
+                stopCamera();
             } else {
-                // UI Styles
                 setActiveTab(tabCamera, tabUpload);
                 secUpload.classList.add('hidden');
                 secCamera.classList.remove('hidden');
@@ -332,13 +306,11 @@
             active.classList.replace('text-gray-500', 'text-emerald-600');
             active.classList.replace('bg-transparent', 'bg-white');
             active.classList.add('shadow-sm');
-            
             inactive.classList.replace('text-emerald-600', 'text-gray-500');
             inactive.classList.replace('bg-white', 'bg-transparent');
             inactive.classList.remove('shadow-sm');
         }
 
-        // --- Logika Kamera ---
         async function startCamera() {
             const video = document.getElementById('webcam');
             const placeholder = document.getElementById('camera-placeholder');
@@ -346,27 +318,24 @@
             const scanOverlay = document.getElementById('scan-overlay');
 
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                alert("Browser tidak mendukung kamera atau koneksi tidak aman (Bukan HTTPS/Localhost).");
+                alert("Browser tidak support kamera.");
                 return;
             }
 
             try {
-                // Minta akses kamera
                 webcamStream = await navigator.mediaDevices.getUserMedia({ 
                     video: { width: 640, height: 480, facingMode: "environment" } 
                 });
-                
                 video.srcObject = webcamStream;
                 video.onloadedmetadata = () => {
                     video.play();
-                    video.classList.remove('opacity-0'); // Fade in effect
+                    video.classList.remove('opacity-0');
                     placeholder.classList.add('hidden');
-                    scanOverlay.classList.remove('hidden'); // Show sci-fi scan lines
+                    scanOverlay.classList.remove('hidden');
                     btnCapture.disabled = false;
                 };
             } catch (err) {
-                console.error(err);
-                alert("Akses kamera ditolak. Izinkan akses di pengaturan browser.");
+                alert("Gagal akses kamera: " + err.name);
             }
         }
 
@@ -387,26 +356,18 @@
             const canvas = document.getElementById('canvas-capture');
             const ctx = canvas.getContext('2d');
 
-            // Sesuaikan ukuran canvas
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             
-            // Efek Cermin (Mirroring) agar natural
-            ctx.translate(canvas.width, 0);
-            ctx.scale(-1, 1);
+            // --- UPDATED: MIRRORING REMOVED ---
+            // Kita gambar langsung apa adanya (WYSIWYG)
             ctx.drawImage(video, 0, 0);
 
-            // Ambil data gambar
             const imgData = canvas.toDataURL('image/png');
-            
-            // Tampilkan UI Hasil
             showResultUI(imgData);
-
-            // Jalankan Prediksi
             predict(canvas, imgData);
         }
 
-        // --- Logika Upload Foto ---
         function previewImage(event) {
             const reader = new FileReader();
             reader.onload = function() {
@@ -417,25 +378,18 @@
                     predict(img, reader.result);
                 }
             }
-            if(event.target.files[0]) {
-                reader.readAsDataURL(event.target.files[0]);
-            }
+            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // --- Logika Prediksi (The Brain) ---
         async function predict(inputSource, imageSrc) {
-            // Tampilkan Loading
             document.getElementById('loading').classList.remove('hidden');
-            
-            if(!model) await init(); // Pastikan model sudah load
+            if(!model) await init();
 
             try {
                 const prediction = await model.predict(inputSource);
-                
                 let highestProb = 0;
                 let bestClass = "";
 
-                // Cari class dengan probabilitas tertinggi
                 for (let i = 0; i < maxPredictions; i++) {
                     if (prediction[i].probability > highestProb) {
                         highestProb = prediction[i].probability;
@@ -443,22 +397,19 @@
                     }
                 }
 
-                // Simulasi delay sedikit agar terlihat "mikir" (UX)
                 setTimeout(() => {
                     updateResultContent(bestClass, highestProb);
                     saveToHistory(bestClass, highestProb, imageSrc);
                     document.getElementById('loading').classList.add('hidden');
-                }, 1000);
+                }, 800);
 
             } catch (error) {
                 console.error(error);
-                alert("Terjadi kesalahan saat analisa AI.");
                 document.getElementById('loading').classList.add('hidden');
                 closeResult();
             }
         }
 
-        // --- Update Tampilan Hasil ---
         function showResultUI(imageSrc) {
             document.getElementById('result-image').src = imageSrc;
             document.getElementById('result-overlay').classList.remove('hidden');
@@ -466,13 +417,11 @@
 
         function closeResult() {
             document.getElementById('result-overlay').classList.add('hidden');
-            document.getElementById('imageUpload').value = ""; // Reset input
+            document.getElementById('imageUpload').value = "";
         }
 
         function updateResultContent(className, probability) {
             const percent = (probability * 100).toFixed(1);
-            
-            // Elemen DOM
             const elTitle = document.getElementById('result-title');
             const elBadge = document.getElementById('result-badge');
             const elBar = document.getElementById('result-bar');
@@ -483,84 +432,88 @@
             elConf.innerText = percent + "%";
             elBar.style.width = percent + "%";
 
-            // Tentukan Warna (Sehat vs Sakit)
-            const isHealthy = className.toLowerCase().includes("sehat");
-            
-            if (isHealthy) {
-                // Style Sehat (Hijau)
+            const lowerClass = className.toLowerCase();
+
+            // LOGIKA WARNA & ISI (UPDATED)
+            if (lowerClass.includes("sehat")) {
                 elBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bold text-white text-xs uppercase tracking-wide shadow-md bg-emerald-500 shadow-emerald-200";
-                elBadge.innerHTML = "<i class='fa-solid fa-check-circle'></i> KONDISI PRIMA";
+                elBadge.innerHTML = "<i class='fa-solid fa-check-circle'></i> SEHAT";
                 elBar.className = "h-full bg-emerald-500 transition-all duration-1000 ease-out";
                 elTitle.className = "text-3xl font-extrabold text-emerald-600 leading-none";
                 elDesc.innerText = solutions["sehat"];
-            } else {
-                // Style Sakit (Merah/Rose)
+            } 
+            else if (lowerClass.includes("sakit")) {
                 elBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bold text-white text-xs uppercase tracking-wide shadow-md bg-rose-500 shadow-rose-200";
-                elBadge.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> TERJANGKIT";
+                elBadge.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> SAKIT";
                 elBar.className = "h-full bg-rose-500 transition-all duration-1000 ease-out";
                 elTitle.className = "text-3xl font-extrabold text-rose-600 leading-none";
                 elDesc.innerText = solutions["sakit"];
             }
+            // Tambahan untuk Class 3 (Background/Lainnya)
+            else {
+                elBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bold text-white text-xs uppercase tracking-wide shadow-md bg-gray-500 shadow-gray-200";
+                elBadge.innerHTML = "<i class='fa-solid fa-question'></i> TIDAK DIKENAL";
+                elBar.className = "h-full bg-gray-500 transition-all duration-1000 ease-out";
+                elTitle.className = "text-3xl font-extrabold text-gray-600 leading-none";
+                // Cek apakah ada pesan khusus untuk nama class ini, jika tidak pakai default
+                elDesc.innerText = solutions[lowerClass] || solutions["default"];
+            }
         }
 
-        // --- Fitur Riwayat (LocalStorage) ---
         function saveToHistory(label, probability, image) {
             const date = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
             const historyItem = { label, probability, image, date, id: Date.now() };
-            
-            let history = JSON.parse(localStorage.getItem('mangoHistory')) || [];
-            history.unshift(historyItem); // Tambah ke paling atas
-            if (history.length > 5) history.pop(); // Simpan max 5
-            
-            localStorage.setItem('mangoHistory', JSON.stringify(history));
+            let history = JSON.parse(localStorage.getItem('patatHistory')) || []; // Ganti key jadi patatHistory
+            history.unshift(historyItem);
+            if (history.length > 5) history.pop();
+            localStorage.setItem('patatHistory', JSON.stringify(history));
             renderHistory();
         }
 
         function renderHistory() {
             const listContainer = document.getElementById('history-list');
-            const history = JSON.parse(localStorage.getItem('mangoHistory')) || [];
+            const history = JSON.parse(localStorage.getItem('patatHistory')) || [];
 
             if (history.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="h-full flex flex-col items-center justify-center text-gray-300 space-y-2 mt-10">
-                        <i class="fa-regular fa-folder-open text-4xl mb-1"></i>
-                        <p class="text-xs">Belum ada riwayat scan.</p>
-                    </div>`;
+                listContainer.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-gray-300 space-y-2 mt-10"><i class="fa-regular fa-folder-open text-4xl mb-1"></i><p class="text-xs">Belum ada riwayat scan.</p></div>`;
                 return;
             }
 
             let html = '';
             history.forEach(item => {
-                const isHealthy = item.label.toLowerCase().includes("sehat");
-                const colorClass = isHealthy ? "text-emerald-600 bg-emerald-50 border-emerald-100" : "text-rose-600 bg-rose-50 border-rose-100";
-                
+                const lower = item.label.toLowerCase();
+                let colorClass = "text-gray-600 bg-gray-50 border-gray-100"; // Default
+                let statusText = "UNKNOWN";
+
+                if(lower.includes("sehat")) { 
+                    colorClass = "text-emerald-600 bg-emerald-50 border-emerald-100"; 
+                    statusText = "SEHAT";
+                } else if(lower.includes("sakit")) { 
+                    colorClass = "text-rose-600 bg-rose-50 border-rose-100"; 
+                    statusText = "SAKIT";
+                }
+
                 html += `
                 <div class="flex items-center space-x-3 p-3 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition group animate__animated animate__fadeIn">
-                    <img src="${item.image}" class="w-14 h-14 rounded-xl object-cover border border-gray-100 group-hover:scale-105 transition-transform">
+                    <img src="${item.image}" class="w-14 h-14 rounded-xl object-cover border border-gray-100">
                     <div class="flex-1 min-w-0">
                         <h5 class="font-bold text-gray-700 text-sm truncate">${item.label}</h5>
-                        <p class="text-[10px] text-gray-400 font-medium">
-                            <i class="fa-regular fa-clock mr-1"></i>${item.date} • Akurasi ${(item.probability * 100).toFixed(0)}%
-                        </p>
+                        <p class="text-[10px] text-gray-400 font-medium"><i class="fa-regular fa-clock mr-1"></i>${item.date} • ${Math.round(item.probability * 100)}%</p>
                     </div>
-                    <div class="px-2 py-1 rounded-lg text-[10px] font-bold border ${colorClass}">
-                        ${isHealthy ? 'SEHAT' : 'SAKIT'}
-                    </div>
+                    <div class="px-2 py-1 rounded-lg text-[10px] font-bold border ${colorClass}">${statusText}</div>
                 </div>`;
             });
             listContainer.innerHTML = html;
         }
 
         function clearHistory() {
-            if(confirm("Hapus semua riwayat scan?")) {
-                localStorage.removeItem('mangoHistory');
+            if(confirm("Hapus semua riwayat?")) {
+                localStorage.removeItem('patatHistory');
                 renderHistory();
             }
         }
 
-        // Jalankan saat halaman load
         init();
-
     </script>
 </body>
 </html>
