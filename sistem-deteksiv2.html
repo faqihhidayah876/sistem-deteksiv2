@@ -3,68 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Deteksi Penyakit Daun Patat</title>
-    <meta name="description" content="Sistem deteksi dini penyakit daun patat berbasis AI dan Web.">
+    <title>PatatDoctor AI - Deteksi Penyakit Daun Patat</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <style>
         body { font-family: 'Poppins', sans-serif; }
-        
-        /* Custom Gradients - Nuansa Hijau Pastel Segar */
-        .bg-gradient-pastel {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
-            background-attachment: fixed;
-        }
-        
-        /* Glassmorphism Card */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-        }
-
-        /* Animasi Garis Scanner */
-        @keyframes scan {
-            0% { top: 0%; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
-        }
-        .scan-line {
-            position: absolute;
-            width: 100%;
-            height: 3px;
-            background: #10b981; /* Emerald 500 */
-            box-shadow: 0 0 15px #10b981, 0 0 5px #fff;
-            animation: scan 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-            z-index: 10;
-        }
-
-        /* Hide Scrollbar */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Efek Hover Halus */
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
+        .bg-gradient-pastel { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%); background-attachment: fixed; }
+        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.6); }
+        .scan-line { position: absolute; width: 100%; height: 3px; background: #10b981; box-shadow: 0 0 15px #10b981, 0 0 5px #fff; animation: scan 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; z-index: 10; }
+        @keyframes scan { 0% { top: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="bg-gradient-pastel min-h-screen text-gray-700 selection:bg-emerald-200 selection:text-emerald-900">
@@ -88,10 +40,10 @@
         </div>
     </nav>
 
-    <main class="pt-28 pb-12 px-4 md:px-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+    <main class="pt-28 pb-12 px-4 md:px-8 max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-8">
 
-        <div class="lg:col-span-4 space-y-6 animate__animated animate__fadeInLeft">
-            <div class="text-left space-y-4 mb-8">
+        <div class="lg:col-span-4 order-1 animate__animated animate__fadeInLeft">
+            <div class="text-left space-y-4">
                 <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight">
                     Sistem Deteksi <br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Daun Patat</span>
@@ -100,27 +52,9 @@
                     Sistem deteksi berbasis Machine Learning untuk mendeteksi penyakit pada tanaman patat.Upload foto atau gunakan kamera Anda.
                 </p>
             </div>
-
-            <div class="glass-card rounded-3xl p-6 shadow-xl shadow-emerald-100/50 h-[420px] flex flex-col hover-lift">
-                <div class="flex justify-between items-center mb-5 pb-3 border-b border-gray-100">
-                    <h3 class="font-bold text-gray-700 flex items-center gap-2">
-                        <i class="fa-solid fa-clock-rotate-left text-emerald-500"></i> Riwayat Scan
-                    </h3>
-                    <button onclick="clearHistory()" class="text-xs text-red-400 hover:text-red-600 transition flex items-center gap-1">
-                        <i class="fa-solid fa-trash-can"></i> Hapus
-                    </button>
-                </div>
-                
-                <div id="history-list" class="flex-1 overflow-y-auto no-scrollbar space-y-3 pr-1">
-                    <div class="h-full flex flex-col items-center justify-center text-gray-300 space-y-2">
-                        <i class="fa-regular fa-folder-open text-4xl mb-1"></i>
-                        <p class="text-xs">Belum ada riwayat scan.</p>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <div class="lg:col-span-8 animate__animated animate__fadeInRight animate__delay-500ms">
+        <div class="lg:col-span-8 lg:row-span-2 order-2 animate__animated animate__fadeInRight">
             <div class="glass-card rounded-[2.5rem] shadow-2xl p-4 md:p-8 relative overflow-hidden border-t-4 border-emerald-400">
                 
                 <div class="flex justify-center space-x-2 mb-8 bg-gray-100/60 p-1.5 rounded-full max-w-sm mx-auto backdrop-blur-sm border border-gray-200">
@@ -136,13 +70,12 @@
                     
                     <div id="section-upload" class="w-full max-w-md transition-all duration-500">
                         <label for="imageUpload" class="group flex flex-col items-center justify-center w-full h-80 border-2 border-emerald-300/50 border-dashed rounded-3xl cursor-pointer bg-emerald-50/30 hover:bg-emerald-50 hover:border-emerald-400 transition-all duration-300 relative overflow-hidden">
-                            <div class="absolute inset-0 bg-emerald-100/0 group-hover:bg-emerald-100/10 transition-colors duration-300"></div>
                             <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center p-6 z-10">
                                 <div class="bg-white p-5 rounded-full shadow-lg shadow-emerald-100 mb-5 group-hover:scale-110 transition-transform duration-300 ring-4 ring-emerald-50">
                                     <i class="fa-solid fa-image text-4xl text-emerald-500"></i>
                                 </div>
-                                <p class="mb-2 text-lg font-bold text-gray-700">Pilih Gambar Daun</p>
-                                <p class="text-xs text-gray-400">Support: JPG, PNG, JPEG</p>
+                                <p class="mb-2 text-lg font-bold text-gray-700">Pilih Gambar</p>
+                                <p class="text-xs text-gray-400">Support: JPG, PNG</p>
                             </div>
                             <input id="imageUpload" type="file" class="hidden" accept="image/*" onchange="previewImage(event)" />
                         </label>
@@ -156,7 +89,7 @@
                                 <div class="scan-line"></div>
                                 <div class="absolute inset-0 border-[3px] border-emerald-500/30 rounded-3xl m-3"></div>
                                 <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-black/50 px-3 py-1 rounded-full text-white/90 text-[10px] tracking-widest font-mono backdrop-blur-sm">
-                                    SCANNING...
+                                    AI SCANNING...
                                 </div>
                             </div>
 
@@ -178,7 +111,7 @@
                         </div>
                     </div>
 
-                    <div id="loading" class="absolute inset-0 z-40 bg-white/90 backdrop-blur-md hidden flex-col items-center justify-center rounded-3xl transition-all duration-300">
+                    <div id="loading" class="absolute inset-0 z-40 bg-white/95 backdrop-blur-md hidden flex-col items-center justify-center rounded-3xl transition-all duration-200">
                         <div class="relative w-24 h-24 mb-4">
                             <div class="absolute inset-0 border-4 border-emerald-100 rounded-full"></div>
                             <div class="absolute inset-0 border-4 border-emerald-500 rounded-full border-t-transparent animate-spin"></div>
@@ -187,7 +120,6 @@
                             </div>
                         </div>
                         <h4 class="text-xl font-bold text-emerald-800">Menganalisa...</h4>
-                        <p class="text-sm text-gray-500 mt-1">Sedang memeriksa kondisi daun</p>
                     </div>
 
                     <div id="result-overlay" class="absolute inset-0 z-50 bg-white z-20 hidden flex flex-col animate__animated animate__fadeInUp rounded-3xl overflow-hidden">
@@ -205,9 +137,6 @@
                                 <div class="w-full md:w-5/12">
                                     <div class="relative rounded-2xl overflow-hidden shadow-lg aspect-square border-2 border-white ring-2 ring-gray-100">
                                         <img id="result-image" src="#" class="w-full h-full object-cover">
-                                        <div class="absolute bottom-2 right-2 bg-black/60 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm">
-                                            Source: User Input
-                                        </div>
                                     </div>
                                 </div>
 
@@ -254,9 +183,30 @@
             </div>
             
             <div class="text-center mt-8 text-xs text-emerald-800/40 font-medium">
-                <p>&copy; 2026 PatatDoctor Project. Built with TensorFlow.js & Love.</p>
+                <p>&copy; 2026 PatatDoctor Project.</p>
             </div>
         </div>
+
+        <div class="lg:col-span-4 order-3 animate__animated animate__fadeInLeft animate__delay-1s">
+            <div class="glass-card rounded-3xl p-6 shadow-xl shadow-emerald-100/50 h-[420px] flex flex-col hover-lift">
+                <div class="flex justify-between items-center mb-5 pb-3 border-b border-gray-100">
+                    <h3 class="font-bold text-gray-700 flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-emerald-500"></i> Riwayat Scan
+                    </h3>
+                    <button onclick="clearHistory()" class="text-xs text-red-400 hover:text-red-600 transition flex items-center gap-1">
+                        <i class="fa-solid fa-trash-can"></i> Hapus
+                    </button>
+                </div>
+                
+                <div id="history-list" class="flex-1 overflow-y-auto no-scrollbar space-y-3 pr-1">
+                    <div class="h-full flex flex-col items-center justify-center text-gray-300 space-y-2">
+                        <i class="fa-regular fa-folder-open text-4xl mb-1"></i>
+                        <p class="text-xs">Belum ada riwayat scan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <canvas id="canvas-capture" class="hidden"></canvas>
@@ -273,33 +223,27 @@
 
         let model, maxPredictions, webcamStream;
         
-        // Database Solusi
         const solutions = {
-            "sehat": "Kondisi daun sangat baik! Tanaman patat Anda sehat. Lanjutkan penyiraman rutin, jaga kelembapan tanah, dan pastikan mendapat sinar matahari cukup.",
-            "sakit": "Terdeteksi indikasi penyakit. Segera isolasi tanaman ini dari yang lain. Pangkas daun yang terinfeksi agar tidak menular.",
-            
-            // Logic Class 3
-            "bukan daun": "Objek ini tidak terdeteksi sebagai daun patat. Mohon arahkan kamera lebih dekat ke daun tanaman."
+            "sehat": "Kondisi daun sangat baik! Tanaman patat Anda sehat. Lanjutkan penyiraman rutin.",
+            "sakit": "Terdeteksi indikasi penyakit. Segera isolasi tanaman ini dan pangkas daun yang terinfeksi.",
+            "bukan daun": "Objek ini tidak terdeteksi sebagai daun patat. Mohon arahkan kamera lebih dekat ke daun.",
+            "default": "AI ragu-ragu. Pastikan foto fokus dan pencahayaan baik."
         };
 
-        // --- Inisialisasi Aplikasi ---
         async function init() {
             renderHistory();
             try {
                 const modelURL = URL_MODEL + "model.json";
                 const metadataURL = URL_MODEL + "metadata.json";
-                
                 model = await tmImage.load(modelURL, metadataURL);
                 maxPredictions = model.getTotalClasses();
-                console.log("✅ Model AI Berhasil Dimuat");
-                
+                console.log("✅ Model AI Loaded");
             } catch (e) {
-                console.error("Gagal Load Model:", e);
-                // alert("Gagal memuat Model AI.");
+                console.error("Gagal load Model:", e);
             }
         }
 
-        // --- Logika Ganti Tab ---
+        // --- Tab Switcher ---
         function switchMode(mode) {
             const tabUpload = document.getElementById('tab-upload');
             const tabCamera = document.getElementById('tab-camera');
@@ -328,7 +272,7 @@
             inactive.classList.remove('shadow-sm');
         }
 
-        // --- Logika Kamera ---
+        // --- Kamera ---
         async function startCamera() {
             const video = document.getElementById('webcam');
             const placeholder = document.getElementById('camera-placeholder');
@@ -344,7 +288,6 @@
                 webcamStream = await navigator.mediaDevices.getUserMedia({ 
                     video: { width: 640, height: 480, facingMode: "environment" } 
                 });
-                
                 video.srcObject = webcamStream;
                 video.onloadedmetadata = () => {
                     video.play();
@@ -352,9 +295,10 @@
                     placeholder.classList.add('hidden');
                     scanOverlay.classList.remove('hidden');
                     btnCapture.disabled = false;
+                    document.getElementById('loading').classList.add('hidden'); // Safety
                 };
             } catch (err) {
-                alert("Akses kamera ditolak.");
+                alert("Akses kamera ditolak: " + err.name);
             }
         }
 
@@ -377,8 +321,6 @@
 
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-            
-            // NO MIRROR (Sesuai request)
             ctx.drawImage(video, 0, 0);
 
             const imgData = canvas.toDataURL('image/png');
@@ -386,7 +328,6 @@
             predict(canvas, imgData);
         }
 
-        // --- Logika Upload ---
         function previewImage(event) {
             const reader = new FileReader();
             reader.onload = function() {
@@ -400,15 +341,12 @@
             if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
         }
 
-        // --- Logika Prediksi ---
         async function predict(inputSource, imageSrc) {
             document.getElementById('loading').classList.remove('hidden');
-            
             if(!model) await init();
 
             try {
                 const prediction = await model.predict(inputSource);
-                
                 let highestProb = 0;
                 let bestClass = "";
 
@@ -419,15 +357,15 @@
                     }
                 }
 
+                // Waktu tunggu 500ms
                 setTimeout(() => {
                     updateResultContent(bestClass, highestProb);
                     saveToHistory(bestClass, highestProb, imageSrc);
                     document.getElementById('loading').classList.add('hidden');
-                }, 800);
+                }, 500);
 
             } catch (error) {
                 console.error(error);
-                alert("Kesalahan analisa AI. Coba refresh halaman.");
                 document.getElementById('loading').classList.add('hidden');
                 closeResult();
             }
@@ -441,6 +379,7 @@
         function closeResult() {
             document.getElementById('result-overlay').classList.add('hidden');
             document.getElementById('imageUpload').value = "";
+            document.getElementById('loading').classList.add('hidden');
         }
 
         function updateResultContent(className, probability) {
@@ -456,7 +395,7 @@
             elBar.style.width = percent + "%";
 
             const lowerClass = className.toLowerCase();
-            
+
             if (lowerClass.includes("sehat")) {
                 elBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bold text-white text-xs uppercase tracking-wide shadow-md bg-emerald-500 shadow-emerald-200";
                 elBadge.innerHTML = "<i class='fa-solid fa-check-circle'></i> KONDISI PRIMA";
@@ -470,7 +409,6 @@
                 elTitle.className = "text-3xl font-extrabold text-rose-600 leading-none";
                 elDesc.innerText = solutions["sakit"];
             } else if (lowerClass.includes("bukan daun")) {
-                // Style Abu-abu untuk Bukan Daun
                 elBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bold text-white text-xs uppercase tracking-wide shadow-md bg-slate-500 shadow-slate-200";
                 elBadge.innerHTML = "<i class='fa-solid fa-ban'></i> BUKAN DAUN";
                 elBar.className = "h-full bg-slate-500 transition-all duration-1000 ease-out";
@@ -488,11 +426,9 @@
         function saveToHistory(label, probability, image) {
             const date = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
             const historyItem = { label, probability, image, date, id: Date.now() };
-            
             let history = JSON.parse(localStorage.getItem('patatHistory')) || [];
             history.unshift(historyItem);
             if (history.length > 5) history.pop();
-            
             localStorage.setItem('patatHistory', JSON.stringify(history));
             renderHistory();
         }
@@ -502,11 +438,7 @@
             const history = JSON.parse(localStorage.getItem('patatHistory')) || [];
 
             if (history.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="h-full flex flex-col items-center justify-center text-gray-300 space-y-2 mt-10">
-                        <i class="fa-regular fa-folder-open text-4xl mb-1"></i>
-                        <p class="text-xs">Belum ada riwayat scan.</p>
-                    </div>`;
+                listContainer.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-gray-300 space-y-2 mt-10"><i class="fa-regular fa-folder-open text-4xl mb-1"></i><p class="text-xs">Belum ada riwayat scan.</p></div>`;
                 return;
             }
 
@@ -545,14 +477,13 @@
         }
 
         function clearHistory() {
-            if(confirm("Hapus semua riwayat scan?")) {
+            if(confirm("Hapus semua riwayat?")) {
                 localStorage.removeItem('patatHistory');
                 renderHistory();
             }
         }
 
         init();
-
     </script>
 </body>
 </html>
