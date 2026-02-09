@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangoDoctor AI - Deteksi Penyakit Daun Mangga</title>
+    <meta name="description" content="Sistem deteksi dini penyakit daun mangga berbasis AI dan Web.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        
+        /* Custom Gradients - Nuansa Hijau Pastel Segar */
+        .bg-gradient-pastel {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
+            background-attachment: fixed;
+        }
+        
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* Animasi Garis Scanner */
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: #10b981; /* Emerald 500 */
+            box-shadow: 0 0 15px #10b981, 0 0 5px #fff;
+            animation: scan 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            z-index: 10;
+        }
+
+        /* Hide Scrollbar tapi tetap bisa scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Efek Hover Halus */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-pastel min-h-screen text-gray-700 selection:bg-emerald-200 selection:text-emerald-900">
+
+    <nav class="w-full py-4 px-6 md:px-12 flex justify-between items-center fixed top-0 z-50 bg-white/60 backdrop-blur-md border-b border-white/30 transition-all duration-300">
+        <div class="flex items-center gap-3">
+            <div class="bg-gradient-to-br from-emerald-400 to-green-600 text-white p-2.5 rounded-xl shadow-lg shadow-emerald-200">
+                <i class="fa-solid fa-leaf text-xl"></i>
+            </div>
+            <div>
+                <span class="text-xl font-bold text-emerald-900 tracking-tight block leading-none">Mango<span class="text-emerald-600">Doctor</span></span>
+                <span class="text-[0.65rem] text-emerald-600 font-medium tracking-widest uppercase">AI Plant Diagnosis</span>
+            </div>
+        </div>
+        <div class="hidden md:flex items-center gap-2 text-xs font-semibold text-emerald-700 bg-emerald-100/80 px-4 py-2 rounded-full border border-emerald-200 shadow-sm">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            System Online v1.0
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-12 px-4 md:px-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+
+        <div class="lg:col-span-4 space-y-6 animate__animated animate__fadeInLeft">
+            <div class="text-left space-y-4 mb-8">
+                <div class="inline-block px-3 py-1 bg-white/80 border border-emerald-100 rounded-full text-xs font-bold text-emerald-600 mb-2">
+                    👋 Halo, Mahasiswa SI!
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight">
+                    Jaga Kualitas <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Mangga Anda</span>
+                </h1>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed opacity-90">
+                    Sistem pakar berbasis Artificial Intelligence untuk mendeteksi penyakit pada daun mangga secara real-time. Cukup upload foto atau gunakan kamera.
+                </p>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6 shadow-xl shadow-emerald-100/50 h-[420px] flex flex-col hover-lift">
+                <div class="flex justify-between items-center mb-5 pb-3 border-b border-gray-100">
+                    <h3 class="font-bold text-gray-700 flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-emerald-500"></i> Riwayat Scan
+                    </h3>
+                    <button onclick="clearHistory()" class="text-xs text-red-400 hover:text-red-600 transition flex items-center gap-1">
+                        <i class="fa-solid fa-trash-can"></i> Hapus
+                    </button>
+                </div>
+                
+                <div id="history-list" class="flex-1 overflow-y-auto no-scrollbar space-y-3 pr-1">
+                    <div class="h-full flex flex-col items-center justify-center text-gray-300 space-y-2">
+                        <i class="fa-regular fa-folder-open text-4xl mb-1"></i>
+                        <p class="text-xs">Belum ada riwayat scan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8 animate__animated animate__fadeInRight animate__delay-500ms">
+            <div class="glass-card rounded-[2.5rem] shadow-2xl p-4 md:p-8 relative overflow-hidden border-t-4 border-emerald-400">
+                
+                <div class="flex justify-center space-x-2 mb-8 bg-gray-100/60 p-1.5 rounded-full max-w-sm mx-auto backdrop-blur-sm border border-gray-200">
+                    <button onclick="switchMode('upload')" id="tab-upload" class="flex-1 py-2.5 px-6 rounded-full text-sm font-bold transition-all duration-300 shadow-sm bg-white text-emerald-600 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                    </button>
+                    <button onclick="switchMode('camera')" id="tab-camera" class="flex-1 py-2.5 px-6 rounded-full text-sm font-bold transition-all duration-300 text-gray-500 hover:text-gray-700 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-camera"></i> Kamera
+                    </button>
+                </div>
+
+                <div class="relative min-h-[400px] flex flex-col items-center justify-center bg-white/50 rounded-3xl border border-white/60 p-4">
+                    
+                    <div id="section-upload" class="w-full max-w-md transition-all duration-500">
+                        <label for="imageUpload" class="group flex flex-col items-center justify-center w-full h-80 border-2 border-emerald-300/50 border-dashed rounded-3xl cursor-pointer bg-emerald-50/30 hover:bg-emerald-50 hover:border-emerald-400 transition-all duration-300 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-emerald-100/0 group-hover:bg-emerald-100/10 transition-colors duration-300"></div>
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center p-6 z-10">
+                                <div class="bg-white p-5 rounded-full shadow-lg shadow-emerald-100 mb-5 group-hover:scale-110 transition-transform duration-300 ring-4 ring-emerald-50">
+                                    <i class="fa-solid fa-image text-4xl text-emerald-500"></i>
+                                </div>
+                                <p class="mb-2 text-lg font-bold text-gray-700">Pilih Gambar Daun</p>
+                                <p class="text-xs text-gray-400">Support: JPG, PNG, JPEG</p>
+                            </div>
+                            <input id="imageUpload" type="file" class="hidden" accept="image/*" onchange="previewImage(event)" />
+                        </label>
+                    </div>
+
+                    <div id="section-camera" class="w-full max-w-md hidden flex-col items-center transition-all duration-500">
+                        <div class="relative w-full h-80 bg-gray-900 rounded-3xl overflow-hidden shadow-inner ring-4 ring-white border border-gray-200">
+                            <video id="webcam" autoplay playsinline class="absolute inset-0 w-full h-full object-cover transform scale-x-[-1] opacity-0 transition-opacity duration-500"></video>
+                            
+                            <div id="scan-overlay" class="absolute inset-0 hidden pointer-events-none">
+                                <div class="scan-line"></div>
+                                <div class="absolute inset-0 border-[3px] border-emerald-500/30 rounded-3xl m-3"></div>
+                                <div class="absolute top-4 left-4 w-8 h-8 border-t-4 border-l-4 border-emerald-400 rounded-tl-lg"></div>
+                                <div class="absolute top-4 right-4 w-8 h-8 border-t-4 border-r-4 border-emerald-400 rounded-tr-lg"></div>
+                                <div class="absolute bottom-4 left-4 w-8 h-8 border-b-4 border-l-4 border-emerald-400 rounded-bl-lg"></div>
+                                <div class="absolute bottom-4 right-4 w-8 h-8 border-b-4 border-r-4 border-emerald-400 rounded-br-lg"></div>
+                                
+                                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-black/50 px-3 py-1 rounded-full text-white/90 text-[10px] tracking-widest font-mono backdrop-blur-sm">
+                                    AI SCANNING...
+                                </div>
+                            </div>
+
+                            <div id="camera-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-white/50">
+                                <div class="bg-white/10 p-4 rounded-full mb-3 backdrop-blur-sm">
+                                    <i class="fa-solid fa-video-slash text-3xl"></i>
+                                </div>
+                                <p class="text-sm font-medium">Kamera Nonaktif</p>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-3 mt-6 w-full">
+                            <button onclick="startCamera()" class="flex-1 py-3.5 bg-white border border-gray-200 text-gray-700 rounded-2xl font-bold hover:bg-gray-50 transition shadow-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-power-off text-emerald-500"></i> Start
+                            </button>
+                            <button onclick="captureImage()" id="btn-capture" class="flex-1 py-3.5 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-emerald-200 transition disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-95 flex items-center justify-center gap-2" disabled>
+                                <i class="fa-solid fa-camera-retro"></i> Capture
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="loading" class="absolute inset-0 z-40 bg-white/90 backdrop-blur-md hidden flex-col items-center justify-center rounded-3xl transition-all duration-300">
+                        <div class="relative w-24 h-24 mb-4">
+                            <div class="absolute inset-0 border-4 border-emerald-100 rounded-full"></div>
+                            <div class="absolute inset-0 border-4 border-emerald-500 rounded-full border-t-transparent animate-spin"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fa-solid fa-robot text-2xl text-emerald-600 animate-bounce"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-xl font-bold text-emerald-800">Menganalisa...</h4>
+                        <p class="text-sm text-gray-500 mt-1">AI sedang memeriksa kondisi daun</p>
+                    </div>
+
+                    <div id="result-overlay" class="absolute inset-0 z-50 bg-white z-20 hidden flex flex-col animate__animated animate__fadeInUp rounded-3xl overflow-hidden">
+                        <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+                            <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                                <i class="fa-solid fa-square-poll-vertical text-emerald-500"></i> Hasil Analisa
+                            </h3>
+                            <button onclick="closeResult()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 hover:bg-red-100 hover:text-red-500 transition">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex-1 overflow-y-auto p-6 scroll-smooth">
+                            <div class="flex flex-col md:flex-row gap-6">
+                                <div class="w-full md:w-5/12">
+                                    <div class="relative rounded-2xl overflow-hidden shadow-lg aspect-square border-2 border-white ring-2 ring-gray-100">
+                                        <img id="result-image" src="#" class="w-full h-full object-cover">
+                                        <div class="absolute bottom-2 right-2 bg-black/60 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm">
+                                            Source: User Input
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="w-full md:w-7/12 space-y-5">
+                                    <div class="flex items-center justify-between">
+                                        <div id="result-badge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bold text-white text-xs uppercase tracking-wide shadow-md">
+                                            Loading...
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-[10px] text-gray-400 uppercase tracking-wider">Confidence</p>
+                                            <p id="result-confidence" class="text-xl font-black text-gray-800">0%</p>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-sm text-gray-400 mb-1">Terdeteksi sebagai:</p>
+                                        <h2 id="result-title" class="text-3xl font-extrabold text-gray-800 leading-none">...</h2>
+                                    </div>
+
+                                    <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                                        <div id="result-bar" class="h-full bg-gray-300 transition-all duration-1000 ease-out w-0"></div>
+                                    </div>
+
+                                    <div class="bg-emerald-50/50 rounded-xl p-5 border border-emerald-100 relative">
+                                        <div class="absolute -top-3 left-4 bg-white px-2 py-0.5 border border-emerald-100 rounded-md text-emerald-600 text-xs font-bold shadow-sm">
+                                            <i class="fa-solid fa-user-doctor mr-1"></i> Solusi AI
+                                        </div>
+                                        <p id="result-desc" class="text-sm text-emerald-800 leading-relaxed mt-1">
+                                            Menunggu hasil diagnosa...
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 border-t border-gray-100 bg-gray-50/50 flex justify-end">
+                            <button onclick="closeResult()" class="px-8 py-2.5 bg-gray-800 text-white rounded-xl font-semibold hover:bg-gray-900 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                <i class="fa-solid fa-magnifying-glass mr-2"></i> Scan Lagi
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="text-center mt-8 text-xs text-emerald-800/40 font-medium">
+                <p>&copy; 2026 MangoDoctor Project. Built with TensorFlow.js & Love.</p>
+            </div>
+        </div>
+    </main>
+
+    <canvas id="canvas-capture" class="hidden"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    
+    <script>
+        // ============================================
+        // 1. KONFIGURASI MODEL (GANTI LINK INI!!!)
+        // ============================================
+        const URL_MODEL = "https://teachablemachine.withgoogle.com/models/SyPfyrCXm/"; 
+        // ============================================
+
+        let model, maxPredictions, webcamStream;
+        
+        // Database Solusi Sederhana
+        const solutions = {
+            "sehat": "Kondisi daun sangat baik! Tanaman mangga Anda sehat. Lanjutkan penyiraman rutin, jaga kelembapan tanah, dan berikan pupuk organik secara berkala untuk mempertahankan kualitas buah.",
+            "sakit": "Terdeteksi indikasi penyakit (Hama/Jamur). Segera isolasi tanaman ini dari yang lain. Pangkas daun yang terinfeksi, lalu semprotkan fungisida atau pestisida nabati (campuran bawang putih & air) secukupnya.",
+            "default": "AI tidak yakin. Pastikan pencahayaan cukup dan foto fokus pada daun. Coba ambil gambar lagi dengan sudut yang berbeda."
+        };
+
+        // --- Inisialisasi Aplikasi ---
+        async function init() {
+            renderHistory(); // Load history dari LocalStorage
+            try {
+                const modelURL = URL_MODEL + "model.json";
+                const metadataURL = URL_MODEL + "metadata.json";
+                
+                // Load Model Teachable Machine
+                model = await tmImage.load(modelURL, metadataURL);
+                maxPredictions = model.getTotalClasses();
+                console.log("✅ Model AI Berhasil Dimuat");
+                
+            } catch (e) {
+                console.error("Gagal Load Model:", e);
+                alert("Gagal memuat Model AI. \n\nPastikan Link URL Model di kodingan sudah benar dan Laptop terkoneksi internet.");
+            }
+        }
+
+        // --- Logika Ganti Tab (Upload vs Kamera) ---
+        function switchMode(mode) {
+            const tabUpload = document.getElementById('tab-upload');
+            const tabCamera = document.getElementById('tab-camera');
+            const secUpload = document.getElementById('section-upload');
+            const secCamera = document.getElementById('section-camera');
+
+            if (mode === 'upload') {
+                // UI Styles
+                setActiveTab(tabUpload, tabCamera);
+                secUpload.classList.remove('hidden');
+                secCamera.classList.add('hidden');
+                stopCamera(); // Matikan kamera jika pindah tab
+            } else {
+                // UI Styles
+                setActiveTab(tabCamera, tabUpload);
+                secUpload.classList.add('hidden');
+                secCamera.classList.remove('hidden');
+                secCamera.style.display = 'flex';
+            }
+        }
+
+        function setActiveTab(active, inactive) {
+            active.classList.replace('text-gray-500', 'text-emerald-600');
+            active.classList.replace('bg-transparent', 'bg-white');
+            active.classList.add('shadow-sm');
+            
+            inactive.classList.replace('text-emerald-600', 'text-gray-500');
+            inactive.classList.replace('bg-white', 'bg-transparent');
+            inactive.classList.remove('shadow-sm');
+        }
+
+        // --- Logika Kamera ---
+        async function startCamera() {
+            const video = document.getElementById('webcam');
+            const placeholder = document.getElementById('camera-placeholder');
+            const btnCapture = document.getElementById('btn-capture');
+            const scanOverlay = document.getElementById('scan-overlay');
+
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("Browser tidak mendukung kamera atau koneksi tidak aman (Bukan HTTPS/Localhost).");
+                return;
+            }
+
+            try {
+                // Minta akses kamera
+                webcamStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { width: 640, height: 480, facingMode: "environment" } 
+                });
+                
+                video.srcObject = webcamStream;
+                video.onloadedmetadata = () => {
+                    video.play();
+                    video.classList.remove('opacity-0'); // Fade in effect
+                    placeholder.classList.add('hidden');
+                    scanOverlay.classList.remove('hidden'); // Show sci-fi scan lines
+                    btnCapture.disabled = false;
+                };
+            } catch (err) {
+                console.error(err);
+                alert("Akses kamera ditolak. Izinkan akses di pengaturan browser.");
+            }
+        }
+
+        function stopCamera() {
+            if (webcamStream) {
+                webcamStream.getTracks().forEach(track => track.stop());
+                webcamStream = null;
+            }
+            const video = document.getElementById('webcam');
+            video.classList.add('opacity-0');
+            document.getElementById('camera-placeholder').classList.remove('hidden');
+            document.getElementById('scan-overlay').classList.add('hidden');
+            document.getElementById('btn-capture').disabled = true;
+        }
+
+        async function captureImage() {
+            const video = document.getElementById('webcam');
+            const canvas = document.getElementById('canvas-capture');
+            const ctx = canvas.getContext('2d');
+
+            // Sesuaikan ukuran canvas
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            // Efek Cermin (Mirroring) agar natural
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
+            ctx.drawImage(video, 0, 0);
+
+            // Ambil data gambar
+            const imgData = canvas.toDataURL('image/png');
+            
+            // Tampilkan UI Hasil
+            showResultUI(imgData);
+
+            // Jalankan Prediksi
+            predict(canvas, imgData);
+        }
+
+        // --- Logika Upload Foto ---
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const img = new Image();
+                img.src = reader.result;
+                img.onload = () => {
+                    showResultUI(reader.result);
+                    predict(img, reader.result);
+                }
+            }
+            if(event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+
+        // --- Logika Prediksi (The Brain) ---
+        async function predict(inputSource, imageSrc) {
+            // Tampilkan Loading
+            document.getElementById('loading').classList.remove('hidden');
+            
+            if(!model) await init(); // Pastikan model sudah load
+
+            try {
+                const prediction = await model.predict(inputSource);
+                
+                let highestProb = 0;
+                let bestClass = "";
+
+                // Cari class dengan probabilitas tertinggi
+                for (let i = 0; i < maxPredictions; i++) {
+                    if (prediction[i].probability > highestProb) {
+                        highestProb = prediction[i].probability;
+                        bestClass = prediction[i].className;
+                    }
+                }
+
+                // Simulasi delay sedikit agar terlihat "mikir" (UX)
+                setTimeout(() => {
+                    updateResultContent(bestClass, highestProb);
+                    saveToHistory(bestClass, highestProb, imageSrc);
+                    document.getElementById('loading').classList.add('hidden');
+                }, 1000);
+
+            } catch (error) {
+                console.error(error);
+                alert("Terjadi kesalahan saat analisa AI.");
+                document.getElementById('loading').classList.add('hidden');
+                closeResult();
+            }
+        }
+
+        // --- Update Tampilan Hasil ---
+        function showResultUI(imageSrc) {
+            document.getElementById('result-image').src = imageSrc;
+            document.getElementById('result-overlay').classList.remove('hidden');
+        }
+
+        function closeResult() {
+            document.getElementById('result-overlay').classList.add('hidden');
+            document.getElementById('imageUpload').value = ""; // Reset input
+        }
+
+        function updateResultContent(className, probability) {
+            const percent = (probability * 100).toFixed(1);
+            
+            // Elemen DOM
+            const elTitle = document.getElementById('result-title');
+            const elBadge = document.getElementById('result-badge');
+            const elBar = document.getElementById('result-bar');
+            const elDesc = document.getElementById('result-desc');
+            const elConf = document.getElementById('result-confidence');
+
+            elTitle.innerText = className;
+            elConf.innerText = percent + "%";
+            elBar.style.width = percent + "%";
+
+            // Tentukan Warna (Sehat vs Sakit)
+            const isHealthy = className.toLowerCase().includes("sehat");
+            
+            if (isHealthy) {
+                // Style Sehat (Hijau)
+                elBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bold text-white text-xs uppercase tracking-wide shadow-md bg-emerald-500 shadow-emerald-200";
+                elBadge.innerHTML = "<i class='fa-solid fa-check-circle'></i> KONDISI PRIMA";
+                elBar.className = "h-full bg-emerald-500 transition-all duration-1000 ease-out";
+                elTitle.className = "text-3xl font-extrabold text-emerald-600 leading-none";
+                elDesc.innerText = solutions["sehat"];
+            } else {
+                // Style Sakit (Merah/Rose)
+                elBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bold text-white text-xs uppercase tracking-wide shadow-md bg-rose-500 shadow-rose-200";
+                elBadge.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> TERJANGKIT";
+                elBar.className = "h-full bg-rose-500 transition-all duration-1000 ease-out";
+                elTitle.className = "text-3xl font-extrabold text-rose-600 leading-none";
+                elDesc.innerText = solutions["sakit"];
+            }
+        }
+
+        // --- Fitur Riwayat (LocalStorage) ---
+        function saveToHistory(label, probability, image) {
+            const date = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            const historyItem = { label, probability, image, date, id: Date.now() };
+            
+            let history = JSON.parse(localStorage.getItem('mangoHistory')) || [];
+            history.unshift(historyItem); // Tambah ke paling atas
+            if (history.length > 5) history.pop(); // Simpan max 5
+            
+            localStorage.setItem('mangoHistory', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const listContainer = document.getElementById('history-list');
+            const history = JSON.parse(localStorage.getItem('mangoHistory')) || [];
+
+            if (history.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-gray-300 space-y-2 mt-10">
+                        <i class="fa-regular fa-folder-open text-4xl mb-1"></i>
+                        <p class="text-xs">Belum ada riwayat scan.</p>
+                    </div>`;
+                return;
+            }
+
+            let html = '';
+            history.forEach(item => {
+                const isHealthy = item.label.toLowerCase().includes("sehat");
+                const colorClass = isHealthy ? "text-emerald-600 bg-emerald-50 border-emerald-100" : "text-rose-600 bg-rose-50 border-rose-100";
+                
+                html += `
+                <div class="flex items-center space-x-3 p-3 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition group animate__animated animate__fadeIn">
+                    <img src="${item.image}" class="w-14 h-14 rounded-xl object-cover border border-gray-100 group-hover:scale-105 transition-transform">
+                    <div class="flex-1 min-w-0">
+                        <h5 class="font-bold text-gray-700 text-sm truncate">${item.label}</h5>
+                        <p class="text-[10px] text-gray-400 font-medium">
+                            <i class="fa-regular fa-clock mr-1"></i>${item.date} • Akurasi ${(item.probability * 100).toFixed(0)}%
+                        </p>
+                    </div>
+                    <div class="px-2 py-1 rounded-lg text-[10px] font-bold border ${colorClass}">
+                        ${isHealthy ? 'SEHAT' : 'SAKIT'}
+                    </div>
+                </div>`;
+            });
+            listContainer.innerHTML = html;
+        }
+
+        function clearHistory() {
+            if(confirm("Hapus semua riwayat scan?")) {
+                localStorage.removeItem('mangoHistory');
+                renderHistory();
+            }
+        }
+
+        // Jalankan saat halaman load
+        init();
+
+    </script>
+</body>
+</html>
